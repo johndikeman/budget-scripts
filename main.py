@@ -3,17 +3,31 @@ import re, os
 
 # Define global dictionaries for category replacements
 DESCRIPTION_CATEGORY_REPLACEMENTS = {
-    r'^AMAZON.COM.*': 'Online Shopping',
-    r'^LYFT.*': 'Transportation',
-    r'^UBER.*': 'Transportation',
-    # Add more patterns as needed
+    r'DISCOVER\s+E-PAYMENT.+': 'john discover payment',
+    r'PAYPAL \*NINTENDO\s+\d+': 'subscriptions',
+    r'ROBINHOOD        Funds': 'investments',
+    r'USAA P&C         AUTOPAY': "Car insurance",
+    r'TARGET': "Target",
+    r'PETCO':"Pet",
+    r'CHEWY':"Pet",
+    r"AMZN": "Amazon",
+    r"VENMO\*                   VISA DIRECT  NY": "rent",
+    r"DUTCH BROS": "Bevvy",
+    r"STARBUCKS": "Bevvy",
+    r"DING TEA":"Bevvy",
+    r"MILK \^ TEA": "Bevvy",
+    r"DIRECTPAY FULL BALANCE": "john discover balance adj.",
+    r"DIRECTPAY MINIMUM PLUS PAYMENT": "jess discover balance adj.",
+    r"PATREON": "Subscriptions",
+    r"DISCORD": "Subscriptions"
 }
 
 CATEGORY_REPLACEMENTS = {
-    r'^DINING.*': 'Food & Dining',
-    r'^GROCERY.*': 'Groceries',
-    r'^TRAVEL.*': 'Travel',
-    # Add more patterns as needed
+    r'Dining': 'Eat out',
+    r'Fast Food': 'Eat out',
+    r'Restaurants': 'Eat out',
+    r'Supermarkets':"Groceries",
+    r"Credit Card Payment":"john petal payment",
 }
 
 def process_usaa_ytd_transactions(csv_file_path):
