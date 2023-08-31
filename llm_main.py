@@ -43,6 +43,8 @@ def get_model_prediction(description):
    Salary
    Credit card payment
    Amazon
+   Transfer
+   Investment
 
   Transaction Description: TX STATE PKS ADV RES 512-389-8900 TX
   Category Prediction: Entertainment
@@ -52,6 +54,9 @@ def get_model_prediction(description):
 
   Transaction Description: TST* WEST PECAN COFFEE A PFLUGERVILLE TX
   Category Prediction: Beverages
+  
+  Transaction Description:Oakville OBSIDIAN.MD              OAKVILLE     ON
+  Category Description: Subscriptions
 
   Transaction Description: {description}
   Category Prediction:
@@ -93,6 +98,10 @@ def process_csv_file(file_path):
                 row['LLM description'] = llm_description
                 output_rows.append([row[field] for field in header])
                 
+    # Write intermediate results to the file
+    with open(file_path, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(output_rows)
     
     print(f"Processed {file_path} and updated 'LLM description' column.")
 
