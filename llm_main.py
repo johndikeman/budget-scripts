@@ -39,7 +39,8 @@ def get_model_prediction(description):
    Rent
    Subscriptions
    Taxes
-   Utilities
+   Electricity
+   Water
    Salary
    Credit card payment
    Amazon
@@ -57,6 +58,9 @@ def get_model_prediction(description):
   
   Transaction Description:Oakville OBSIDIAN.MD              OAKVILLE     ON
   Category Description: Subscriptions
+
+  Transaction Description:PAYPAL *STEAM GAMES 402-935-7733 WAUSA
+  Category Description: Hobbies
 
   Transaction Description: {description}
   Category Prediction:
