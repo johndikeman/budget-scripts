@@ -46,6 +46,7 @@ def get_model_prediction(description):
    Amazon
    Transfer
    Investment
+   Pet Care
 
   Transaction Description: TX STATE PKS ADV RES 512-389-8900 TX
   Category Prediction: Entertainment
