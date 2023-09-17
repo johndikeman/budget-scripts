@@ -30,6 +30,8 @@ def get_model_prediction(description):
    Groceries
    Hobbies
    Insurance
+   Bucees
+   Beauty
    Medical
    Miscellaneous
    GCP bills
