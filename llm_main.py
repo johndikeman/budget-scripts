@@ -46,9 +46,11 @@ def get_model_prediction(description):
    Salary
    Credit card payment
    Amazon
-   Transfer
+   Venmo Transfer
    Investment
    Pet Care
+   Teaching Supplies
+   Interest
 
   Transaction Description: TX STATE PKS ADV RES 512-389-8900 TX
   Category Prediction: Entertainment
