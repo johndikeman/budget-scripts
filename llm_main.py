@@ -84,6 +84,10 @@ def process_csv_file(file_path):
     with open(file_path, 'r', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         header = reader.fieldnames
+        if header == None:
+            raise Exception("No header columns found, what gives?")
+        
+        header = list(header)
         
         if 'LLM description' in header:
             print(f"File {file_path} already has an 'LLM description' column.")
@@ -101,7 +105,7 @@ def process_csv_file(file_path):
             if llm_description is None or llm_description == "None":
                 try:
                     llm_description = get_model_prediction(description)
-                except Exception as e:
+                except Exception as _:
                     llm_description = "None"
                 
                 row['LLM description'] = llm_description
