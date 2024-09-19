@@ -5,7 +5,6 @@ import os
 import csv
 
 
-
 def get_model_prediction(description):
   vertexai.init(project="portfolio-296415", location="us-central1")
   parameters = {
@@ -77,6 +76,54 @@ def get_model_prediction(description):
   time.sleep(2)
   return response.text
 
+import os
+import pandas as pd
+from google.cloud import storage
+from datetime import datetime
+from io import StringIO
+
+def process_import(request):
+    # Get today's date in MM-DD-YYYY format
+    today_date = datetime.today().strftime('%m-%d-%Y')
+    
+    # Initialize the GCS client
+    storage_client = storage.Client()
+    
+    # Get the bucket
+    bucket_name = os.getenv('GCS_BUCKET_NAME')
+    bucket = storage_client.bucket(bucket_name)
+    
+    # List all blobs in the bucket with the prefix of today's date
+    blobs = bucket.list_blobs(prefix=today_date)
+    
+    # Process each blob (CSV file)
+    for blob in blobs:
+        if blob.name.endswith('.csv'):
+            # Download the file content
+            file_content = blob.download_as_text()
+            
+            # Read the CSV content into a DataFrame
+            df = pd.read_csv(StringIO(file_content))
+            
+            # Extract the filename without the date part
+            filename = os.path.basename(blob.name)
+            filename_without_date = filename.replace(today_date, '').strip()
+            
+            # Add a new column "TRANSFER ACCOUNT" with the filename (without date)
+            df['TRANSFER ACCOUNT'] = filename_without_date
+            
+            # Call the "get_model_description" function on the "DESCRIPTION" column
+            df['LLM description'] = df['DESCRIPTION'].apply(get_model_prediction)
+            
+            # Save the modified DataFrame back to GCS or another location if needed
+            # For example, you can save it to a new CSV file in the same bucket
+            new_blob_name = f"{today_date}_{filename_without_date}_processed.csv"
+            new_blob = bucket.blob(new_blob_name)
+            new_blob.upload_from_string(df.to_csv(index=False), 'text/csv')
+    
+    return f"Processed files for date: {today_date}"
+
+
 
 def process_csv_file(file_path):
     output_rows = []
@@ -143,3 +190,4 @@ def main():
   
 if __name__ == "__main__":
     main()
+
